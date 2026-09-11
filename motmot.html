@@ -1,0 +1,3509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>Our 3rd Monthsary ❤️</title>
+
+
+<!-- =====================================================
+     GOOGLE FONT
+===================================================== -->
+
+<link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+>
+
+<link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+>
+
+<link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+>
+
+
+<!-- =====================================================
+     TAILWIND CSS
+===================================================== -->
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+
+<!-- =====================================================
+     THREE.JS
+===================================================== -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+
+<!-- =====================================================
+     GSAP
+===================================================== -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+
+<!-- =====================================================
+     CANVAS CONFETTI
+===================================================== -->
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+
+<style>
+
+/* =====================================================
+   GLOBAL
+===================================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+
+    --pink: #ff4f91;
+    --rose: #ff6fa8;
+    --red: #e91e63;
+    --purple: #a855f7;
+
+    --dark: #0c0a09;
+
+    --white: #fff8fc;
+}
+
+html,
+body {
+
+    width: 100%;
+    min-height: 100%;
+}
+
+body {
+
+    overflow: hidden;
+
+    background: #0c0a09;
+
+    color: white;
+
+    font-family:
+        "Satoshi",
+        "Inter",
+        Arial,
+        sans-serif;
+}
+
+
+/* =====================================================
+   AURORA BACKGROUND
+===================================================== */
+
+.aurora {
+
+    position: fixed;
+
+    inset: -25%;
+
+    z-index: -20;
+
+    background:
+
+        radial-gradient(
+            ellipse at 20% 30%,
+            hsla(333,70%,55%,.40),
+            transparent 45%
+        ),
+
+        radial-gradient(
+            ellipse at 80% 20%,
+            hsla(282,82%,54%,.30),
+            transparent 45%
+        ),
+
+        radial-gradient(
+            ellipse at 50% 80%,
+            hsla(210,89%,60%,.30),
+            transparent 45%
+        ),
+
+        radial-gradient(
+            ellipse at 80% 80%,
+            hsla(35,90%,60%,.30),
+            transparent 45%
+        ),
+
+        #0c0a09;
+
+    filter: blur(55px);
+
+    animation:
+        aurora 18s
+        ease-in-out
+        infinite
+        alternate;
+}
+
+.aurora::before,
+.aurora::after {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+
+        radial-gradient(
+            circle at 15% 70%,
+            hsla(333,70%,55%,.25),
+            transparent 35%
+        ),
+
+        radial-gradient(
+            circle at 85% 55%,
+            hsla(282,82%,54%,.22),
+            transparent 35%
+        );
+
+    animation:
+        auroraFloat 13s
+        ease-in-out
+        infinite
+        alternate;
+}
+
+.aurora::after {
+
+    animation-delay: -5s;
+}
+
+@keyframes aurora {
+
+    0% {
+
+        transform:
+            scale(1)
+            rotate(0deg);
+    }
+
+    50% {
+
+        transform:
+            scale(1.12)
+            rotate(5deg);
+    }
+
+    100% {
+
+        transform:
+            scale(1.2)
+            rotate(-5deg);
+    }
+}
+
+@keyframes auroraFloat {
+
+    from {
+
+        transform:
+            translate(-3%,-2%)
+            scale(1);
+    }
+
+    to {
+
+        transform:
+            translate(4%,4%)
+            scale(1.15);
+    }
+}
+
+
+/* =====================================================
+   THREE.JS CANVAS
+===================================================== */
+
+#heartCanvas {
+
+    position: fixed;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    z-index: -5;
+
+    pointer-events: none;
+}
+
+
+/* =====================================================
+   MUSIC BUTTON
+===================================================== */
+
+.music-button {
+
+    position: fixed;
+
+    top: 22px;
+    left: 22px;
+
+    width: 48px;
+    height: 48px;
+
+    border-radius: 50%;
+
+    border:
+        1px solid
+        rgba(255,255,255,.18);
+
+    background:
+        rgba(255,255,255,.08);
+
+    backdrop-filter:
+        blur(18px);
+
+    -webkit-backdrop-filter:
+        blur(18px);
+
+    color: white;
+
+    cursor: pointer;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size: 19px;
+
+    z-index: 100;
+
+    transition:
+        .3s ease;
+}
+
+.music-button:hover {
+
+    transform:
+        scale(1.08);
+
+    background:
+        rgba(255,79,145,.20);
+
+    box-shadow:
+        0 0 30px
+        rgba(255,79,145,.4);
+}
+
+.music-button.active {
+
+    animation:
+        musicPulse 1.2s
+        infinite;
+}
+
+@keyframes musicPulse {
+
+    0%,
+    100% {
+
+        box-shadow:
+            0 0 10px
+            rgba(255,79,145,.2);
+    }
+
+    50% {
+
+        box-shadow:
+            0 0 30px
+            rgba(255,79,145,.7);
+    }
+}
+
+
+/* =====================================================
+   PROGRESS BAR
+===================================================== */
+
+.progress-wrapper {
+
+    position: fixed;
+
+    top: 20px;
+
+    left: 50%;
+
+    transform:
+        translateX(-50%);
+
+    width:
+        min(360px,48vw);
+
+    height: 5px;
+
+    border-radius: 100px;
+
+    background:
+        rgba(255,255,255,.10);
+
+    backdrop-filter:
+        blur(12px);
+
+    z-index: 100;
+
+    overflow: hidden;
+}
+
+.progress-bar {
+
+    height: 100%;
+
+    width: 20%;
+
+    border-radius: inherit;
+
+    background:
+        linear-gradient(
+            90deg,
+            #ff5c9a,
+            #ff1744
+        );
+
+    box-shadow:
+        0 0 15px
+        rgba(255,79,145,.7);
+
+    transition:
+        width .7s
+        cubic-bezier(.65,0,.35,1);
+}
+
+
+/* =====================================================
+   MAIN
+===================================================== */
+
+main {
+
+    min-height: 100vh;
+
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding:
+        70px 20px 30px;
+
+    perspective:
+        1200px;
+}
+
+.steps-container {
+
+    width: 100%;
+
+    max-width: 850px;
+
+    min-height: 550px;
+
+    position: relative;
+}
+
+
+/* =====================================================
+   STEPS
+===================================================== */
+
+.step {
+
+    position: absolute;
+
+    inset: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    transform:
+        translateY(35px)
+        scale(.94);
+
+    pointer-events: none;
+}
+
+.step.active {
+
+    opacity: 1;
+
+    visibility: visible;
+
+    transform:
+        translateY(0)
+        scale(1);
+
+    pointer-events: auto;
+}
+
+
+/* =====================================================
+   GLASS CARD
+===================================================== */
+
+.glass-card {
+
+    position: relative;
+
+    width: 100%;
+
+    max-width: 780px;
+
+    min-height: 510px;
+
+    padding:
+        60px 65px;
+
+    border-radius: 32px;
+
+    background:
+
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.075),
+            rgba(255,255,255,.025)
+        );
+
+    border:
+        1px solid
+        rgba(255,255,255,.14);
+
+    backdrop-filter:
+        blur(28px);
+
+    -webkit-backdrop-filter:
+        blur(28px);
+
+    box-shadow:
+
+        0 35px 100px
+        rgba(0,0,0,.45),
+
+        inset 0 1px 0
+        rgba(255,255,255,.08);
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    overflow: hidden;
+}
+
+.glass-card::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 280px;
+    height: 280px;
+
+    top: -150px;
+    left: -100px;
+
+    background:
+        rgba(255,255,255,.07);
+
+    filter:
+        blur(65px);
+
+    border-radius: 50%;
+}
+
+
+/* =====================================================
+   STEP NUMBER
+===================================================== */
+
+.step-number {
+
+    position: absolute;
+
+    top: 25px;
+    right: 30px;
+
+    color:
+        rgba(255,255,255,.3);
+
+    font-size: 11px;
+
+    letter-spacing: 3px;
+}
+
+
+/* =====================================================
+   TYPOGRAPHY
+===================================================== */
+
+.title,
+.subtitle {
+
+    font-family:
+        "Playfair Display",
+        Georgia,
+        serif;
+
+    background:
+
+        linear-gradient(
+            120deg,
+            #ffffff,
+            #ffd8e8 35%,
+            #ff86b7 70%,
+            #ffffff
+        );
+
+    -webkit-background-clip:
+        text;
+
+    background-clip:
+        text;
+
+    color:
+        transparent;
+
+    background-size:
+        200% auto;
+
+    animation:
+        titleShine 5s
+        linear
+        infinite;
+}
+
+.title {
+
+    font-size:
+        clamp(42px,7vw,70px);
+
+    line-height:
+        1.05;
+
+    font-weight:
+        600;
+
+    margin-bottom:
+        22px;
+}
+
+.subtitle {
+
+    font-size:
+        clamp(31px,5vw,50px);
+
+    line-height:
+        1.15;
+
+    margin-bottom:
+        20px;
+}
+
+@keyframes titleShine {
+
+    to {
+
+        background-position:
+            200% center;
+    }
+}
+
+.description {
+
+    max-width:
+        570px;
+
+    color:
+        rgba(255,255,255,.76);
+
+    font-size:
+        17px;
+
+    line-height:
+        1.8;
+
+    margin-bottom:
+        35px;
+}
+
+
+/* =====================================================
+   BIG ICON
+===================================================== */
+
+.big-icon {
+
+    font-size:
+        82px;
+
+    line-height:
+        1;
+
+    margin-bottom:
+        28px;
+
+    filter:
+        drop-shadow(
+            0 0 25px
+            rgba(255,79,145,.6)
+        );
+}
+
+.heart-beat {
+
+    animation:
+        heartbeat 1.7s
+        ease-in-out
+        infinite;
+}
+
+@keyframes heartbeat {
+
+    0%,
+    100% {
+
+        transform:
+            scale(1);
+    }
+
+    10% {
+
+        transform:
+            scale(1.08);
+    }
+
+    20% {
+
+        transform:
+            scale(1);
+    }
+
+    30% {
+
+        transform:
+            scale(1.13);
+    }
+
+    45% {
+
+        transform:
+            scale(1);
+    }
+}
+
+
+/* =====================================================
+   BUTTON
+===================================================== */
+
+.next-button {
+
+    border:
+        none;
+
+    outline:
+        none;
+
+    padding:
+        15px 31px;
+
+    border-radius:
+        100px;
+
+    color:
+        white;
+
+    font-size:
+        15px;
+
+    font-weight:
+        700;
+
+    cursor:
+        pointer;
+
+    background:
+
+        linear-gradient(
+            110deg,
+            #ff5b9c,
+            #ff1744
+        );
+
+    box-shadow:
+
+        0 10px 30px
+        rgba(255,23,68,.25),
+
+        0 0 25px
+        rgba(255,79,145,.18);
+
+    transition:
+
+        transform .25s ease,
+        box-shadow .25s ease,
+        filter .25s ease;
+}
+
+.next-button:hover {
+
+    transform:
+        translateY(-4px)
+        scale(1.05);
+
+    box-shadow:
+
+        0 15px 40px
+        rgba(255,23,68,.38),
+
+        0 0 40px
+        rgba(255,79,145,.45);
+
+    filter:
+        brightness(1.08);
+}
+
+.next-button:active {
+
+    transform:
+        translateY(1px)
+        scale(.97);
+}
+
+
+/* =====================================================
+   EQUAL 2 x 2 MEMORY GRID
+===================================================== */
+
+.bento-grid {
+
+    width: 100%;
+
+    max-width: 600px;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2,1fr);
+
+    grid-template-rows:
+        repeat(2,150px);
+
+    gap: 14px;
+
+    margin-bottom: 28px;
+}
+
+.bento-item {
+
+    position: relative;
+
+    width: 100%;
+    height: 100%;
+
+    overflow: hidden;
+
+    border-radius: 20px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.14);
+
+    background:
+        rgba(255,255,255,.06);
+
+    cursor:
+        zoom-in;
+
+    transition:
+        transform .4s ease,
+        box-shadow .4s ease;
+}
+
+.bento-item img {
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    display: block;
+
+    transition:
+        transform .6s ease;
+}
+
+.bento-item:hover {
+
+    transform:
+        translateY(-5px)
+        scale(1.02);
+
+    box-shadow:
+        0 15px 35px
+        rgba(0,0,0,.4);
+
+    z-index: 2;
+}
+
+.bento-item:hover img {
+
+    transform:
+        scale(1.08);
+}
+
+
+/* =====================================================
+   IMAGE LIGHTBOX
+===================================================== */
+
+.image-lightbox {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 1000;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 30px;
+
+    background:
+        rgba(5,3,8,.90);
+
+    backdrop-filter:
+        blur(18px);
+
+    -webkit-backdrop-filter:
+        blur(18px);
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    pointer-events: none;
+
+    transition:
+        opacity .35s ease,
+        visibility .35s ease;
+}
+
+.image-lightbox.active {
+
+    opacity: 1;
+
+    visibility: visible;
+
+    pointer-events: auto;
+}
+
+.lightbox-content {
+
+    position: relative;
+
+    max-width: 92vw;
+
+    max-height: 88vh;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    transform:
+        scale(.75);
+
+    transition:
+        transform .45s
+        cubic-bezier(.2,.8,.2,1);
+
+    filter:
+        drop-shadow(
+            0 25px 70px
+            rgba(0,0,0,.65)
+        );
+}
+
+.image-lightbox.active
+.lightbox-content {
+
+    transform:
+        scale(1);
+}
+
+.lightbox-content img {
+
+    display: block;
+
+    max-width:
+        92vw;
+
+    max-height:
+        88vh;
+
+    width:
+        auto;
+
+    height:
+        auto;
+
+    object-fit:
+        contain;
+
+    border-radius:
+        16px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.2);
+
+    box-shadow:
+        0 0 50px
+        rgba(255,79,145,.18);
+}
+
+.lightbox-close {
+
+    position: absolute;
+
+    top: 22px;
+
+    right: 25px;
+
+    width: 48px;
+
+    height: 48px;
+
+    border-radius: 50%;
+
+    border:
+        1px solid
+        rgba(255,255,255,.2);
+
+    background:
+        rgba(255,255,255,.10);
+
+    backdrop-filter:
+        blur(15px);
+
+    -webkit-backdrop-filter:
+        blur(15px);
+
+    color:
+        white;
+
+    font-size:
+        20px;
+
+    cursor:
+        pointer;
+
+    z-index:
+        1001;
+
+    transition:
+        transform .25s ease,
+        background .25s ease;
+}
+
+.lightbox-close:hover {
+
+    transform:
+        rotate(90deg)
+        scale(1.08);
+
+    background:
+        rgba(255,79,145,.25);
+}
+
+
+/* =====================================================
+   POLAROID
+===================================================== */
+
+.memory-area {
+
+    perspective:
+        1000px;
+
+    margin:
+        0 auto 22px;
+}
+
+.polaroid {
+
+    width:
+        280px;
+
+    padding:
+        12px 12px 20px;
+
+    background:
+        #ffffff;
+
+    border-radius:
+        3px;
+
+    transform:
+        rotate(-4deg);
+
+    box-shadow:
+        0 30px 60px
+        rgba(0,0,0,.5);
+
+    color:
+        #272027;
+
+    cursor:
+        pointer;
+
+    transition:
+        transform .15s ease;
+}
+
+.polaroid-image {
+
+    width:
+        100%;
+
+    height:
+        245px;
+
+    object-fit:
+        cover;
+
+    display:
+        block;
+}
+
+.polaroid-caption {
+
+    padding-top:
+        15px;
+
+    font-family:
+        "Playfair Display",
+        Georgia,
+        serif;
+
+    font-size:
+        18px;
+
+    text-align:
+        center;
+}
+
+
+/* =====================================================
+   FINAL MESSAGE
+===================================================== */
+
+.final-message {
+
+    opacity:
+        0;
+
+    transform:
+        translateY(25px);
+
+    font-family:
+        "Playfair Display",
+        Georgia,
+        serif;
+
+    font-size:
+        clamp(24px,4vw,38px);
+
+    line-height:
+        1.4;
+
+    background:
+
+        linear-gradient(
+            90deg,
+            #fff,
+            #ff8fba,
+            #fff
+        );
+
+    -webkit-background-clip:
+        text;
+
+    background-clip:
+        text;
+
+    color:
+        transparent;
+
+    margin-bottom:
+        30px;
+}
+
+
+/* =====================================================
+   FINALE GLOW
+===================================================== */
+
+.finale-glow {
+
+    position: fixed;
+
+    inset: 0;
+
+    pointer-events:
+        none;
+
+    z-index:
+        50;
+
+    opacity:
+        0;
+
+    background:
+
+        radial-gradient(
+            circle at center,
+            rgba(255,79,145,.20),
+            transparent 48%
+        );
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media(max-width:700px) {
+
+    .music-button {
+
+        top: 16px;
+        left: 16px;
+
+        width: 43px;
+        height: 43px;
+    }
+
+    .progress-wrapper {
+
+        top: 20px;
+
+        width:
+            38vw;
+    }
+
+    main {
+
+        padding:
+            65px 14px 25px;
+    }
+
+    .steps-container {
+
+        min-height:
+            610px;
+    }
+
+    .glass-card {
+
+        min-height:
+            585px;
+
+        padding:
+            50px 22px;
+
+        border-radius:
+            25px;
+    }
+
+    .title {
+
+        font-size:
+            40px;
+    }
+
+    .subtitle {
+
+        font-size:
+            32px;
+    }
+
+    .description {
+
+        font-size:
+            15px;
+
+        line-height:
+            1.7;
+    }
+
+    .big-icon {
+
+        font-size:
+            68px;
+    }
+
+
+    /* =================================================
+       MOBILE 2 x 2 GRID
+    ================================================= */
+
+    .bento-grid {
+
+        width:
+            100%;
+
+        max-width:
+            100%;
+
+        grid-template-columns:
+            repeat(2,1fr);
+
+        grid-template-rows:
+            repeat(2,115px);
+
+        gap:
+            9px;
+    }
+
+
+    /* =================================================
+       MOBILE LIGHTBOX
+    ================================================= */
+
+    .image-lightbox {
+
+        padding:
+            15px;
+    }
+
+    .lightbox-content {
+
+        max-width:
+            96vw;
+
+        max-height:
+            82vh;
+    }
+
+    .lightbox-content img {
+
+        max-width:
+            96vw;
+
+        max-height:
+            82vh;
+
+        border-radius:
+            12px;
+    }
+
+    .lightbox-close {
+
+        top:
+            15px;
+
+        right:
+            15px;
+
+        width:
+            43px;
+
+        height:
+            43px;
+
+        font-size:
+            18px;
+    }
+
+
+    .polaroid {
+
+        width:
+            245px;
+    }
+
+    .polaroid-image {
+
+        height:
+            215px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     BACKGROUND
+===================================================== -->
+
+<div class="aurora"></div>
+
+<canvas id="heartCanvas"></canvas>
+
+<div
+    class="finale-glow"
+    id="finaleGlow">
+</div>
+
+
+<!-- =====================================================
+     MUSIC BUTTON
+===================================================== -->
+
+<button
+    class="music-button"
+    id="musicButton"
+    title="Toggle music">
+
+    🔇
+
+</button>
+
+
+<!-- =====================================================
+     PROGRESS BAR
+===================================================== -->
+
+<div class="progress-wrapper">
+
+    <div
+        class="progress-bar"
+        id="progressBar">
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main>
+
+<div class="steps-container">
+
+
+<!-- =====================================================
+     STEP 1 — GRAND WELCOME
+===================================================== -->
+
+<section
+    class="step active"
+    data-step="1">
+
+<div class="glass-card">
+
+<div class="step-number">
+01 / 05
+</div>
+
+
+<div class="big-icon heart-beat">
+💗
+</div>
+
+
+<h1 class="title">
+Hey Loveyyy,
+</h1>
+
+
+<p class="description">
+
+Three months ago, something beautiful started
+between us. And today, I just want to make a
+little world that reminds you how much you mean
+to me.
+
+</p>
+
+
+<button class="next-button">
+
+Let's Begin ❤️
+
+</button>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     STEP 2 — CORE MESSAGE
+===================================================== -->
+
+<section
+    class="step"
+    data-step="2">
+
+<div class="glass-card">
+
+<div class="step-number">
+02 / 05
+</div>
+
+
+<div class="big-icon">
+💞
+</div>
+
+
+<h2 class="title">
+Happy 3rd Monthsary!
+</h2>
+
+
+<p class="description">
+
+Three months may sound short to some people,
+but for me, every day with you has become
+something worth remembering.
+
+Thank you for being part of my life and for
+making these months so special.
+
+</p>
+
+
+<button class="next-button">
+
+There's more... 💕
+
+</button>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     STEP 3 — THINGS I LOVE ABOUT US
+===================================================== -->
+
+<section
+    class="step"
+    data-step="3">
+
+<div class="glass-card">
+
+<div class="step-number">
+03 / 05
+</div>
+
+
+<h2 class="subtitle">
+Our Priceless Memories 
+</h2>
+
+
+<!--
+     EQUAL 2 x 2 LAYOUT
+
+     CARD 1 | CARD 2
+     CARD 3 | CARD 4
+-->
+
+<div class="bento-grid">
+
+
+<!-- CARD 1 -->
+
+<div class="bento-item">
+
+<img
+    src="pic1.jpg"
+    alt="Our memory 1"
+>
+
+</div>
+
+
+<!-- CARD 2 -->
+
+<div class="bento-item">
+
+<img
+    src="pic2.jpg"
+    alt="Our memory 2"
+>
+
+</div>
+
+
+<!-- CARD 3 -->
+
+<div class="bento-item">
+
+<img
+    src="pic3.jpg"
+    alt="Our memory 3"
+>
+
+</div>
+
+
+<!-- CARD 4 -->
+
+<div class="bento-item">
+
+<img
+    src="pic4.jpg"
+    alt="Our memory 4"
+>
+
+</div>
+
+
+</div>
+
+
+<p
+    class="description"
+    style="margin-bottom:20px;"
+>
+
+The little conversations, random moments,
+laughs, memories, and even the difficult days
+are all part of what makes our story ours.
+
+</p>
+
+
+<button class="next-button">
+
+Remember this? 🥹
+
+</button>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     STEP 4 — SHARED MEMORY
+===================================================== -->
+
+<section
+    class="step"
+    data-step="4">
+
+<div class="glass-card">
+
+<div class="step-number">
+04 / 05
+</div>
+
+
+<h2 class="subtitle">
+Three Months of Us
+</h2>
+
+
+<div class="memory-area">
+
+<div
+    class="polaroid"
+    id="polaroid"
+>
+
+
+<img
+    class="polaroid-image"
+    src="pic5.jpg"
+    alt="Our favorite memory"
+>
+
+
+<div class="polaroid-caption">
+
+Our favorite memory. ❤️
+
+</div>
+
+
+</div>
+
+</div>
+
+
+<p class="description">
+
+Every moment with you feels like a little
+piece of a story I'd happily read over and
+over again.
+
+I hope we get to make many more memories
+together.
+
+</p>
+
+
+<button class="next-button">
+
+One last thing... 💌
+
+</button>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     STEP 5 — FINALE
+===================================================== -->
+
+<section
+    class="step"
+    data-step="5">
+
+<div class="glass-card">
+
+<div class="step-number">
+05 / 05
+</div>
+
+
+<div class="big-icon">
+💐
+</div>
+
+
+<h2 class="subtitle">
+Happy 3rd Monthsary, my love! ❤️
+</h2>
+
+
+<p class="description">
+
+Hellooo loveyyy kuuu 🥰🥰🥰 Happy 3rd monthsary po satin! 🥹❤️ Three months na tayo, loveyyy. Ang bilis talaga HAHAHAHA. Parang recently lang yung mga first moments natin, tapos eto na tayo ngayon, nasa 3rd month na tayo ng relationship natinnnn😘😘😘
+
+Ang saya lang isipin na yung simpleng follow at chat natin dati, umabot hanggang dito. Hindi ko rin akalain na magiging ganito kita ka-important sa akin. Ngayon, nasanay na akong may ikaw na kakwentuhan, kukulitin, mamimiss, at hahanapin kapag hindi tayo nag-uusap.🥰😘😘
+
+Sorry po loveyyy kung minsan nabubusy ako kaya hindi na po kita masyadong nalalambing😓😓😓 Alam ko minsan bitin po yung lambing ko sayo, pero hindi po ibig sabihin nun na hindi na po kita iniisip. babawi po ako soonest, promise. 🥺🫶
+
+And malapit na po birthday moooo! 🥳🥰 Makakapagkita na po ulit tayooo! Finallyyy 😭 Miss na miss npo a talaga kita, and excited na akong makita ka ulit, makipagkwentuhan, mangulit, at syempre makasama ka poo🥹❤️
+
+Thank you po for being part of my everyday life, loveyyy. Kahit sa mga simpleng usapan natin or random na pangungulit, napapasaya mo yung araw ko without even trying 🥹🫶, thankyousomuchhh po loveyyy kuuu dahil palagi kang proud sa lahat ng achievements ko kahit small or big achievements pa po yunn🥺🥺🥺
+
+Hindi ko kailangan ng sobrang daming sabihin ngayon. Gusto ko lang malaman mo na sobrang saya ko na ikaw yung kasama ko hanggang ngayon, ngayon 3rd monthsary natin. 🥰
+
+And habang patuloy tayong nagkakaroon ng sariling little moments, I hope you know na I appreciate you more than I sometimes know how to say. Kahit busy, kahit hindi tayo madalas nakakapag-usap nang matagal, you're still someone I look forward to at the end of the day. 🥺❤️
+
+Kaya please don't forget na nandito lang po ako, loveyyy. Hindi man ako laging sweet or available, mahal na mahal pa rin kita. Baka minsan tahimik lang ako or busy, pero hindi nagbabago yung place mo sa puso ko. 🥹🫶
+
+Can't wait to see you again, birthday girl. 😭🥰 Maghanda ka na po kasi babawi ako sa lambing HAHAHAHA. Miss na miss na kita and I can't wait na magkaroon ulit tayo ng time together. ❤️
+
+Three months with you, and I'm still genuinely happy that it's you. Sana marami pa tayong ordinary days na magiging favorite natin, random conversations na tatagal nang ilang oras, at moments na bigla na lang nating maaalala at mapapangiti tayo. 🥹❤️
+
+For now, enjoy muna natin itong little milestone natin. Then soon, magkikita na ulit tayo. 🥰
+
+Happy 3rd monthsary, loveyyy kooo. ❤️
+Thank you for being my favorite person, my comfort, and one of the happiest parts of my days. 🥹🫶
+
+I love you more than I can put into words. Take care always, my loveyyy. 🥰😘
+See you soon, birthday girl. I'll be waiting for that next hug. ❤️
+
+Iloveyousomuchhh, loveyyy. 🥹❤️
+
+</p>
+
+
+<div
+    class="final-message"
+    id="finalMessage"
+>
+
+Iloveyousomuchhh loveyyy kuu🥰😘😘
+
+</div>
+
+
+<button
+    class="next-button"
+    id="celebrateButton"
+>
+
+Here's to Us! 💕
+
+</button>
+
+</div>
+
+</section>
+
+
+</div>
+
+</main>
+
+
+<!-- =====================================================
+     IMAGE LIGHTBOX
+===================================================== -->
+
+<div
+    class="image-lightbox"
+    id="imageLightbox"
+>
+
+
+<button
+    class="lightbox-close"
+    id="lightboxClose"
+    aria-label="Close image"
+>
+
+✕
+
+</button>
+
+
+<div class="lightbox-content">
+
+
+<img
+    id="lightboxImage"
+    src=""
+    alt="Expanded memory"
+>
+
+
+</div>
+
+</div>
+
+
+<script>
+
+/* =====================================================
+   STEP NAVIGATION
+===================================================== */
+
+const steps =
+    document.querySelectorAll(".step");
+
+const progressBar =
+    document.getElementById(
+        "progressBar"
+    );
+
+let currentStep = 0;
+
+let transitioning = false;
+
+
+function animateStepContent(step) {
+
+    const card =
+        step.querySelector(
+            ".glass-card"
+        );
+
+
+    const elements =
+        step.querySelectorAll(
+            ".big-icon, .title, .subtitle, .description, .bento-grid, .memory-area, .next-button, .final-message"
+        );
+
+
+    gsap.fromTo(
+
+        card,
+
+        {
+            opacity: 0,
+            y: 40,
+            scale: .94
+        },
+
+        {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+
+            duration: .75,
+
+            ease:
+                "power3.out"
+        }
+
+    );
+
+
+    gsap.fromTo(
+
+        elements,
+
+        {
+            opacity: 0,
+            y: 20
+        },
+
+        {
+            opacity: 1,
+            y: 0,
+
+            duration: .6,
+
+            stagger: .08,
+
+            delay: .15,
+
+            ease:
+                "power2.out"
+        }
+
+    );
+
+}
+
+
+function goToStep(index) {
+
+    if (
+
+        transitioning ||
+
+        index < 0 ||
+
+        index >= steps.length
+
+    ) {
+
+        return;
+
+    }
+
+
+    transitioning =
+        true;
+
+
+    const oldStep =
+        steps[currentStep];
+
+    const newStep =
+        steps[index];
+
+
+    gsap.to(
+
+        oldStep,
+
+        {
+
+            opacity: 0,
+
+            y: -25,
+
+            scale: .95,
+
+            duration: .4,
+
+            ease:
+                "power2.in",
+
+            onComplete: () => {
+
+
+                oldStep.classList.remove(
+                    "active"
+                );
+
+
+                newStep.classList.add(
+                    "active"
+                );
+
+
+                gsap.set(
+
+                    newStep,
+
+                    {
+
+                        opacity: 0,
+
+                        y: 35,
+
+                        scale: .94
+
+                    }
+
+                );
+
+
+                gsap.to(
+
+                    newStep,
+
+                    {
+
+                        opacity: 1,
+
+                        y: 0,
+
+                        scale: 1,
+
+                        duration: .65,
+
+                        ease:
+                            "power3.out",
+
+                        onComplete: () => {
+
+                            transitioning =
+                                false;
+
+                        }
+
+                    }
+
+                );
+
+
+                animateStepContent(
+                    newStep
+                );
+
+            }
+
+        }
+
+    );
+
+
+    currentStep =
+        index;
+
+
+    progressBar.style.width =
+
+        (
+
+            (currentStep + 1) /
+            steps.length *
+            100
+
+        ) + "%";
+
+}
+
+
+/* =====================================================
+   NEXT BUTTONS
+===================================================== */
+
+document
+    .querySelectorAll(".next-button")
+    .forEach(button => {
+
+
+        if (
+            button.id ===
+            "celebrateButton"
+        ) {
+
+            return;
+
+        }
+
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                goToStep(
+                    currentStep + 1
+                );
+
+            }
+        );
+
+    });
+
+
+/* =====================================================
+   IMAGE LIGHTBOX
+===================================================== */
+
+const memoryCards =
+    document.querySelectorAll(
+        ".bento-item"
+    );
+
+
+const imageLightbox =
+    document.getElementById(
+        "imageLightbox"
+    );
+
+
+const lightboxImage =
+    document.getElementById(
+        "lightboxImage"
+    );
+
+
+const lightboxClose =
+    document.getElementById(
+        "lightboxClose"
+    );
+
+
+/*
+    Open the clicked image
+*/
+
+memoryCards.forEach(card => {
+
+    card.addEventListener(
+        "click",
+        () => {
+
+            const image =
+                card.querySelector(
+                    "img"
+                );
+
+
+            if (!image) {
+                return;
+            }
+
+
+            /*
+                Copy the image source
+                into the large viewer.
+            */
+
+            lightboxImage.src =
+                image.src;
+
+
+            lightboxImage.alt =
+                image.alt;
+
+
+            /*
+                Show lightbox
+            */
+
+            imageLightbox.classList.add(
+                "active"
+            );
+
+
+            /*
+                Prevent background
+                scrolling.
+            */
+
+            document.body.style.overflow =
+                "hidden";
+
+        }
+    );
+
+});
+
+
+/*
+    Close using X button
+*/
+
+lightboxClose.addEventListener(
+    "click",
+    closeLightbox
+);
+
+
+/*
+    Close when clicking
+    outside the picture.
+*/
+
+imageLightbox.addEventListener(
+    "click",
+    event => {
+
+        if (
+            event.target ===
+            imageLightbox
+        ) {
+
+            closeLightbox();
+
+        }
+
+    }
+);
+
+
+/*
+    Close using ESC
+*/
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        if (
+
+            event.key ===
+                "Escape" &&
+
+            imageLightbox.classList.contains(
+                "active"
+            )
+
+        ) {
+
+            closeLightbox();
+
+        }
+
+    }
+);
+
+
+function closeLightbox() {
+
+    imageLightbox.classList.remove(
+        "active"
+    );
+
+
+    /*
+        Keep the page from
+        suddenly changing size
+        during the closing animation.
+    */
+
+    document.body.style.overflow =
+        "hidden";
+
+
+    /*
+        Remove image after
+        the fade animation.
+    */
+
+    setTimeout(
+
+        () => {
+
+            if (
+                !imageLightbox.classList.contains(
+                    "active"
+                )
+            ) {
+
+                lightboxImage.src = "";
+
+            }
+
+        },
+
+        350
+
+    );
+
+}
+
+
+/* =====================================================
+   POLAROID PARALLAX
+===================================================== */
+
+const polaroid =
+    document.getElementById(
+        "polaroid"
+    );
+
+
+polaroid.addEventListener(
+    "mousemove",
+    event => {
+
+
+        const rect =
+            polaroid.getBoundingClientRect();
+
+
+        const x =
+            event.clientX -
+            rect.left;
+
+
+        const y =
+            event.clientY -
+            rect.top;
+
+
+        const rotateY =
+
+            (
+
+                (x - rect.width / 2) /
+                (rect.width / 2)
+
+            ) * 9;
+
+
+        const rotateX =
+
+            (
+
+                (rect.height / 2 - y) /
+                (rect.height / 2)
+
+            ) * 9;
+
+
+        gsap.to(
+
+            polaroid,
+
+            {
+
+                rotateX,
+                rotateY,
+
+                rotateZ: -2,
+
+                duration: .3
+
+            }
+
+        );
+
+    }
+);
+
+
+polaroid.addEventListener(
+    "mouseleave",
+    () => {
+
+
+        gsap.to(
+
+            polaroid,
+
+            {
+
+                rotateX: 0,
+
+                rotateY: 0,
+
+                rotateZ: -4,
+
+                duration: .7,
+
+                ease:
+                    "elastic.out(1,.5)"
+
+            }
+
+        );
+
+    }
+);
+
+
+/* =====================================================
+   THREE.JS FLOATING HEARTS
+===================================================== */
+
+const canvas =
+    document.getElementById(
+        "heartCanvas"
+    );
+
+
+const scene =
+    new THREE.Scene();
+
+
+const camera =
+    new THREE.PerspectiveCamera(
+
+        65,
+
+        window.innerWidth /
+        window.innerHeight,
+
+        .1,
+
+        1000
+
+    );
+
+
+camera.position.z =
+    15;
+
+
+const renderer =
+    new THREE.WebGLRenderer({
+
+        canvas,
+
+        alpha: true,
+
+        antialias: true
+
+    });
+
+
+renderer.setPixelRatio(
+
+    Math.min(
+        window.devicePixelRatio,
+        2
+    )
+
+);
+
+
+renderer.setSize(
+
+    window.innerWidth,
+
+    window.innerHeight
+
+);
+
+
+/* =====================================================
+   HEART SHAPE
+===================================================== */
+
+function createHeart() {
+
+    const shape =
+        new THREE.Shape();
+
+
+    shape.moveTo(
+        0,
+        .25
+    );
+
+
+    shape.bezierCurveTo(
+
+        -1.2,
+        1.4,
+
+        -2,
+        .1,
+
+        0,
+        -1.1
+
+    );
+
+
+    shape.bezierCurveTo(
+
+        2,
+        .1,
+
+        1.2,
+        1.4,
+
+        0,
+        .25
+
+    );
+
+
+    return shape;
+
+}
+
+
+const heartGeometry =
+    new THREE.ExtrudeGeometry(
+
+        createHeart(),
+
+        {
+
+            depth: .35,
+
+            bevelEnabled: true,
+
+            bevelSegments: 3,
+
+            bevelSize: .08,
+
+            bevelThickness: .08
+
+        }
+
+    );
+
+
+heartGeometry.center();
+
+
+const hearts = [];
+
+
+const heartColors = [
+
+    0xff3b6b,
+
+    0xff477e,
+
+    0xff1744,
+
+    0xff6699,
+
+    0xe91e63,
+
+    0xff8fab
+
+];
+
+
+for (
+    let i = 0;
+    i < 24;
+    i++
+) {
+
+
+    const material =
+        new THREE.MeshPhongMaterial({
+
+            color:
+
+                heartColors[
+                    Math.floor(
+                        Math.random() *
+                        heartColors.length
+                    )
+                ],
+
+            shininess:
+                100,
+
+            specular:
+                0xffffff,
+
+            transparent:
+                true,
+
+            opacity:
+                .65
+
+        });
+
+
+    const heart =
+        new THREE.Mesh(
+
+            heartGeometry,
+
+            material
+
+        );
+
+
+    const scale =
+
+        Math.random() *
+        .18 +
+        .1;
+
+
+    heart.scale.set(
+
+        scale,
+        scale,
+        scale
+
+    );
+
+
+    heart.position.x =
+
+        (Math.random() - .5) *
+        20;
+
+
+    heart.position.y =
+
+        (Math.random() - .5) *
+        14;
+
+
+    heart.position.z =
+
+        (Math.random() - .5) *
+        14;
+
+
+    heart.rotation.x =
+
+        Math.random() *
+        Math.PI;
+
+
+    heart.rotation.y =
+
+        Math.random() *
+        Math.PI;
+
+
+    heart.rotation.z =
+
+        Math.random() *
+        Math.PI;
+
+
+    heart.userData = {
+
+        originalX:
+            heart.position.x,
+
+        originalY:
+            heart.position.y,
+
+        originalZ:
+            heart.position.z,
+
+        offset:
+
+            Math.random() *
+            Math.PI *
+            2,
+
+        drift:
+
+            Math.random() *
+            .8 +
+            .4,
+
+        rotationSpeed:
+
+            (Math.random() - .5) *
+            .006
+
+    };
+
+
+    scene.add(
+        heart
+    );
+
+
+    hearts.push(
+        heart
+    );
+
+}
+
+
+/* =====================================================
+   LIGHTING
+===================================================== */
+
+scene.add(
+
+    new THREE.AmbientLight(
+
+        0xffffff,
+
+        1.3
+
+    )
+
+);
+
+
+const pinkLight =
+    new THREE.PointLight(
+
+        0xff477e,
+
+        3,
+
+        30
+
+    );
+
+
+pinkLight.position.set(
+
+    0,
+    5,
+    8
+
+);
+
+
+scene.add(
+    pinkLight
+);
+
+
+const purpleLight =
+    new THREE.PointLight(
+
+        0x9c27b0,
+
+        2,
+
+        25
+
+    );
+
+
+purpleLight.position.set(
+
+    -8,
+    -4,
+    4
+
+);
+
+
+scene.add(
+    purpleLight
+);
+
+
+let animationTime =
+    0;
+
+
+let finaleStarted =
+    false;
+
+
+function animate() {
+
+
+    requestAnimationFrame(
+        animate
+    );
+
+
+    animationTime +=
+        .01;
+
+
+    hearts.forEach(
+
+        (heart,index) => {
+
+
+            const data =
+                heart.userData;
+
+
+            if (
+                !finaleStarted
+            ) {
+
+
+                heart.position.y =
+
+                    data.originalY +
+
+                    Math.sin(
+
+                        animationTime +
+                        data.offset
+
+                    ) *
+                    data.drift;
+
+
+                heart.position.x =
+
+                    data.originalX +
+
+                    Math.sin(
+
+                        animationTime *
+                        .4 +
+
+                        data.offset
+
+                    ) *
+                    .45;
+
+
+                heart.rotation.x +=
+
+                    data.rotationSpeed;
+
+
+                heart.rotation.y +=
+
+                    data.rotationSpeed *
+                    .7;
+
+
+                heart.rotation.z +=
+
+                    data.rotationSpeed *
+                    .5;
+
+
+            } else {
+
+
+                const angle =
+
+                    index /
+                    hearts.length *
+                    Math.PI *
+                    2;
+
+
+                heart.position.x +=
+
+                    Math.cos(angle) *
+                    .025;
+
+
+                heart.position.y +=
+                    .035;
+
+
+                heart.position.z +=
+
+                    Math.sin(angle) *
+                    .025;
+
+
+                heart.rotation.x +=
+                    .015;
+
+
+                heart.rotation.y +=
+                    .02;
+
+
+                heart.material.opacity -=
+                    .006;
+
+            }
+
+        }
+
+    );
+
+
+    renderer.render(
+        scene,
+        camera
+    );
+
+}
+
+
+animate();
+
+
+/* =====================================================
+   RESIZE
+===================================================== */
+
+window.addEventListener(
+    "resize",
+    () => {
+
+
+        camera.aspect =
+
+            window.innerWidth /
+            window.innerHeight;
+
+
+        camera.updateProjectionMatrix();
+
+
+        renderer.setSize(
+
+            window.innerWidth,
+
+            window.innerHeight
+
+        );
+
+    }
+);
+
+
+/* =====================================================
+   MUSIC
+===================================================== */
+
+const musicButton =
+    document.getElementById("musicButton");
+
+const backgroundMusic =
+    new Audio("music.mp3");
+
+backgroundMusic.loop = true;
+
+backgroundMusic.volume = 0.35;
+
+let musicPlaying = false;
+
+
+musicButton.addEventListener("click", async () => {
+
+    if (!musicPlaying) {
+
+        try {
+
+            await backgroundMusic.play();
+
+            musicPlaying = true;
+
+            musicButton.textContent = "🎵";
+
+            musicButton.classList.add("active");
+
+        } catch (error) {
+
+            console.log("Music could not play:", error);
+
+        }
+
+    } else {
+
+        backgroundMusic.pause();
+
+        musicPlaying = false;
+
+        musicButton.textContent = "🔇";
+
+        musicButton.classList.remove("active");
+
+    }
+
+});
+
+
+musicButton.addEventListener(
+
+    "click",
+
+    async () => {
+
+
+        if (!audioContext) {
+
+            audioContext =
+                new (
+                    window.AudioContext ||
+                    window.webkitAudioContext
+                )();
+
+        }
+
+
+        if (
+
+            audioContext.state ===
+            "suspended"
+
+        ) {
+
+            await audioContext.resume();
+
+        }
+
+
+        musicPlaying =
+            !musicPlaying;
+
+
+        if (musicPlaying) {
+
+
+            musicButton.textContent =
+                "🎵";
+
+
+            musicButton.classList.add(
+                "active"
+            );
+
+
+            playNote();
+
+
+        } else {
+
+
+            musicButton.textContent =
+                "🔇";
+
+
+            musicButton.classList.remove(
+                "active"
+            );
+
+
+            clearTimeout(
+                musicTimer
+            );
+
+        }
+
+    }
+
+);
+
+
+/* =====================================================
+   CONFETTI
+===================================================== */
+
+function cornerBurst(x) {
+
+
+    confetti({
+
+        particleCount:
+            100,
+
+        spread:
+            70,
+
+        startVelocity:
+            55,
+
+        angle:
+            x < .5
+                ? 65
+                : 115,
+
+        origin: {
+
+            x,
+
+            y: 1
+
+        },
+
+        scalar:
+            1.15
+
+    });
+
+
+    confetti({
+
+        particleCount:
+            70,
+
+        spread:
+            100,
+
+        startVelocity:
+            45,
+
+        angle:
+            x < .5
+                ? 45
+                : 135,
+
+        origin: {
+
+            x,
+
+            y: .9
+
+        }
+
+    });
+
+}
+
+
+function continuousConfetti() {
+
+
+    const duration =
+        5000;
+
+
+    const end =
+        Date.now() +
+        duration;
+
+
+    function frame() {
+
+
+        confetti({
+
+            particleCount:
+                3,
+
+            angle:
+                60,
+
+            spread:
+                55,
+
+            origin: {
+
+                x: 0,
+                y: 0
+
+            },
+
+            gravity:
+                .8,
+
+            ticks:
+                220
+
+        });
+
+
+        confetti({
+
+            particleCount:
+                3,
+
+            angle:
+                120,
+
+            spread:
+                55,
+
+            origin: {
+
+                x: 1,
+                y: 0
+
+            },
+
+            gravity:
+                .8,
+
+            ticks:
+                220
+
+        });
+
+
+        if (
+            Date.now() < end
+        ) {
+
+            requestAnimationFrame(
+                frame
+            );
+
+        }
+
+    }
+
+
+    frame();
+
+}
+
+
+function emojiConfetti() {
+
+
+    const emojis = [
+
+        "❤️",
+        "💗",
+        "💕",
+        "✨"
+
+    ];
+
+
+    const shapes =
+        emojis.map(
+
+            emoji =>
+
+                confetti.shapeFromText({
+
+                    text:
+                        emoji,
+
+                    scalar:
+                        2
+
+                })
+
+        );
+
+
+    confetti({
+
+        particleCount:
+            18,
+
+        spread:
+            120,
+
+        startVelocity:
+            25,
+
+        gravity:
+            .65,
+
+        shapes,
+
+        origin: {
+
+            x:
+                Math.random(),
+
+            y:
+                -.05
+
+        }
+
+    });
+
+}
+
+
+/* =====================================================
+   GRAND FINALE
+===================================================== */
+
+const celebrateButton =
+    document.getElementById(
+        "celebrateButton"
+    );
+
+
+const finalMessage =
+    document.getElementById(
+        "finalMessage"
+    );
+
+
+const finaleGlow =
+    document.getElementById(
+        "finaleGlow"
+    );
+
+
+celebrateButton.addEventListener(
+
+    "click",
+
+    () => {
+
+
+        if (
+            finaleStarted
+        ) {
+
+            return;
+
+        }
+
+
+        finaleStarted =
+            true;
+
+
+        /* BUTTON */
+
+        gsap.to(
+
+            celebrateButton,
+
+            {
+
+                opacity:
+                    0,
+
+                scale:
+                    .7,
+
+                duration:
+                    .45,
+
+                ease:
+                    "power2.in",
+
+                onComplete: () => {
+
+                    celebrateButton.disabled =
+                        true;
+
+                }
+
+            }
+
+        );
+
+
+        /* FINAL MESSAGE */
+
+        gsap.to(
+
+            finalMessage,
+
+            {
+
+                opacity:
+                    1,
+
+                y:
+                    0,
+
+                duration:
+                    1.2,
+
+                delay:
+                    .35,
+
+                ease:
+                    "power3.out"
+
+            }
+
+        );
+
+
+        /* GLOW */
+
+        gsap.to(
+
+            finaleGlow,
+
+            {
+
+                opacity:
+                    1,
+
+                duration:
+                    1.2,
+
+                ease:
+                    "power2.out"
+
+            }
+
+        );
+
+
+        /* FIRST BURST */
+
+        setTimeout(
+
+            () => {
+
+                cornerBurst(.03);
+
+                cornerBurst(.97);
+
+            },
+
+            350
+
+        );
+
+
+        /* SECOND BURST */
+
+        setTimeout(
+
+            () => {
+
+                cornerBurst(.08);
+
+                cornerBurst(.92);
+
+            },
+
+            750
+
+        );
+
+
+        /* CONTINUOUS CONFETTI */
+
+        setTimeout(
+
+            continuousConfetti,
+
+            700
+
+        );
+
+
+        /* HEART EMOJI CONFETTI */
+
+        for (
+
+            let i = 0;
+
+            i < 18;
+
+            i++
+
+        ) {
+
+            setTimeout(
+
+                emojiConfetti,
+
+                800 +
+                i * 220
+
+            );
+
+        }
+
+
+        /* HEART FINALE */
+
+        setTimeout(
+
+            () => {
+
+
+                hearts.forEach(
+
+                    (heart,index) => {
+
+
+                        gsap.to(
+
+                            heart.scale,
+
+                            {
+
+                                x:
+                                    heart.scale.x *
+                                    1.5,
+
+                                y:
+                                    heart.scale.y *
+                                    1.5,
+
+                                z:
+                                    heart.scale.z *
+                                    1.5,
+
+                                duration:
+                                    2,
+
+                                delay:
+                                    index *
+                                    .025,
+
+                                ease:
+                                    "power2.out"
+
+                            }
+
+                        );
+
+                    }
+
+                );
+
+            },
+
+            300
+
+        );
+
+    }
+
+);
+
+
+/* =====================================================
+   INITIAL ANIMATION
+===================================================== */
+
+window.addEventListener(
+
+    "load",
+
+    () => {
+
+        animateStepContent(
+            steps[0]
+        );
+
+    }
+
+);
+
+</script>
+
+</body>
+</html>
